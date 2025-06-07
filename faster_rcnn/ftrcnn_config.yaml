@@ -12,8 +12,8 @@ training:
   checkpoint_dir: "checkpoints_3"
 
 data:
-  train_csv: "data/train_df.csv"
-  val_csv: "data/val_df.csv"
+  train_csv: "faster_rcnn/data/train_df.csv"
+  val_csv: "faster_rcnn/data/val_df.csv"
   image_dir: "images"
 
 model:

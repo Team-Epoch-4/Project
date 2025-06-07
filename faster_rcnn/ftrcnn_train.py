@@ -16,7 +16,7 @@ parser.add_argument("--use_wandb", action="store_true", help="Enable Weights & B
 parser.add_argument("--ckpt_dir", type=str, default="checkpoints_3", help="Directory to save checkpoints")
 args = parser.parse_args()
 
-with open("ftrcnn_config.yaml", "r") as f:
+with open("faster_rcnn/ftrcnn_config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
 # --- wandb 조건부 활성화 ---
@@ -35,7 +35,12 @@ print("Using device: ", device)
 os.makedirs(args.ckpt_dir, exist_ok=True)
 
 # --- 모델 및 옵티마이저 정의 ---
-model = fasterrcnn_resnet50_fpn(num_classes=NUM_CLASSES)
+model = fasterrcnn_resnet50_fpn(
+    pretrained=False,
+    pretrained_backbone=True,
+    trainable_backbone_layers=3,
+    num_classes=NUM_CLASSES
+)
 model.to(device)
 
 optimizer = torch.optim.Adam(model.parameters(),
@@ -45,10 +50,9 @@ optimizer = torch.optim.Adam(model.parameters(),
 # --- 데이터셋/로더 정의 ---
 train_df = pd.read_csv(config["data"]["train_csv"])
 val_df = pd.read_csv(config["data"]["val_csv"])
-image_dir = config["data"]["image_dir"]
 
-train_dataset = FasterRCNNDataset(train_df, image_dir=image_dir, transforms=get_train_transform())
-val_dataset = FasterRCNNDataset(val_df, image_dir=image_dir, transforms=get_val_transform())
+train_dataset = FasterRCNNDataset(train_df, transforms=get_train_transform())
+val_dataset = FasterRCNNDataset(val_df, transforms=get_val_transform())
 
 train_loader = DataLoader(train_dataset, batch_size=config["training"]["batch_size"], shuffle=True, collate_fn=collate_fn, num_workers=0, pin_memory=True)
 val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False, collate_fn=collate_fn,num_workers=0, pin_memory=True)
