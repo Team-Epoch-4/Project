@@ -19,7 +19,7 @@ def load_single_image_json(json_path):
             rows.append({
                 "image_name": image_name,
                 "image_path": str(json_path.parent.parent / "images" / image_name),
-                "class": int(ann["category_id"]),
+                "category_id": int(ann["category_id"]),
                 "x": ann["bbox"][0],
                 "y": ann["bbox"][1],
                 "w": ann["bbox"][2],
@@ -45,14 +45,15 @@ def load_annotations_from_folder(folder_path):
     return pd.DataFrame(all_rows)
 
 # train/val_df
-train_df = load_annotations_from_folder("faster_rcnn/images/ADD_DATASET/annotations")
+train_df = load_annotations_from_folder("faster_rcnn/images/ORIGINAL_DATASET/annotations")
 val_df = load_annotations_from_folder("faster_rcnn/images/TEST_DATASET/annotations")
 
 category_df = pd.read_csv('faster_rcnn/data/category_df.csv')
+category_df["label"] += 1
 id2label = dict(zip(category_df["category_id"], category_df["label"]))
 
-train_df["label"] = train_df["class"].map(id2label)
-val_df["label"] = val_df["class"].map(id2label)
+train_df["label"] = train_df["category_id"].map(id2label)
+val_df["label"] = val_df["category_id"].map(id2label)
 
 # float → int64로 변환
 # train_df["label"] = train_df["label"].astype("int64")

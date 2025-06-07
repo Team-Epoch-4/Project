@@ -22,6 +22,14 @@ def main(args):
     # 모델 로드
     model = load_model(args.checkpoint, args.num_classes, device)
 
+    # Backbone profile (optional)
+    if args.profile_model:
+        from thop import profile
+        dummy_input = torch.randn(1, 3, 640, 640).to(device)
+        macs, params = profile(model.backbone, inputs=(dummy_input,))
+        print(f"FLOPs (approx): {macs * 2 / 1e9:.2f} GFLOPs")
+        print(f"Params: {params / 1e6:.2f} M")
+
     # 데이터셋 로딩
     df_val = pd.read_csv("data/val_df.csv")
     val_dataset = FasterRCNNDataset(df_val, image_dir="val_images", transforms=get_val_transform())
@@ -42,6 +50,7 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoint", type=str, required=True, help="Path to .pth checkpoint file")
     parser.add_argument("--num_classes", type=int, default=74)
     parser.add_argument("--use_wandb", action="store_true")
+    parser.add_argument("--profile_model", action="store_true", help="Profile the model backbone FLOPs and params")
     args = parser.parse_args()
 
     main(args)
