@@ -48,7 +48,7 @@ class FasterRCNNDataset(Dataset):
             labels = torch.tensor(labels, dtype=torch.int64)
 
         target = {"boxes": bboxes, "labels": labels}
-        return image, target
+        return image, target, image_name
 
 def collate_fn(batch):
     return tuple(zip(*batch))
