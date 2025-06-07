@@ -18,7 +18,7 @@ data:
 
 dataset:
   train_annotations_path: data/ORIGINAL/annotations
-  val_annotations_path: data/TEST/annotations
+  val_annotations_path: data/VAL/annotations
   category_csv_path: faster_rcnn/data/category_df.csv
   processed_train_df_path: faster_rcnn/data/train_df.csv
   processed_val_df_path: faster_rcnn/data/val_df.csv
