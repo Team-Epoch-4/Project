@@ -2,6 +2,7 @@ from pathlib import Path
 import pandas as pd
 import json
 from tqdm import tqdm
+import yaml
 
 def load_single_image_json(json_path):
     with open(json_path, encoding='utf-8') as f:
@@ -44,11 +45,25 @@ def load_annotations_from_folder(folder_path):
     print(f"{folder.name} → 총 {len(all_rows)}개 객체 수집 완료")
     return pd.DataFrame(all_rows)
 
-# train/val_df
-train_df = load_annotations_from_folder("faster_rcnn/images/ORIGINAL_DATASET/annotations")
-val_df = load_annotations_from_folder("faster_rcnn/images/TEST_DATASET/annotations")
+with open("faster_rcnn/ftrcnn_config.yaml", "r") as f:
+    config = yaml.safe_load(f)
+#   train_annotations_path: data/ORIGINAL/annotations
+#   val_annotations_path: data/VAL/annotations
+#   category_csv_path: faster_rcnn/data/category_df.csv
+#   processed_train_df_path: faster_rcnn/data/train_df.csv
+#   processed_val_df_path: faster_rcnn/data/val_df.csv
+# 경로 읽기
+train_annotations_path = config["dataset"]["train_annotations_path"]
+val_annotations_path = config["dataset"]["val_annotations_path"]
+category_csv_path = config["dataset"]["category_csv_path"]
+processed_train_df_path = config["dataset"]["processed_train_df_path"]
+processed_val_df_path = config["dataset"]["processed_val_df_path"]
 
-category_df = pd.read_csv('faster_rcnn/data/category_df.csv')
+# train/val_df
+train_df = load_annotations_from_folder(train_annotations_path)
+val_df = load_annotations_from_folder(val_annotations_path)
+
+category_df = pd.read_csv(category_csv_path)
 category_df["label"] += 1
 id2label = dict(zip(category_df["category_id"], category_df["label"]))
 
@@ -61,5 +76,6 @@ val_df["label"] = val_df["category_id"].map(id2label)
 
 # 저장
 Path("faster_rcnn/data").mkdir(parents=True, exist_ok=True)
-train_df.to_csv("faster_rcnn/data/train_df.csv", index=False)
-val_df.to_csv("faster_rcnn/data/val_df.csv", index=False)
+train_df.to_csv(processed_train_df_path, index=False)
+val_df.to_csv(processed_val_df_path, index=False)
+
