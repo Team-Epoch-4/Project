@@ -6,9 +6,8 @@ from albumentations.pytorch import ToTensorV2
 
 
 class FasterRCNNDataset(Dataset):
-    def __init__(self, df, image_dir, transforms=None):
+    def __init__(self, df, transforms=None):
         self.df = df
-        self.image_dir = Path(image_dir)
         self.image_names = df["image_name"].unique()
         self.transforms = transforms
 
@@ -18,7 +17,7 @@ class FasterRCNNDataset(Dataset):
     def __getitem__(self, idx):
         image_name = self.image_names[idx]
         rows = self.df[self.df["image_name"] == image_name]
-        img_path = self.image_dir / image_name
+        img_path = Path(rows.iloc[0]["image_path"])
 
         if not img_path.exists():
             print(f"[경고] 이미지 파일 없음: {img_path}")
@@ -49,7 +48,7 @@ class FasterRCNNDataset(Dataset):
             labels = torch.tensor(labels, dtype=torch.int64)
 
         target = {"boxes": bboxes, "labels": labels}
-        return image, target
+        return image, target, image_name
 
 def collate_fn(batch):
     return tuple(zip(*batch))

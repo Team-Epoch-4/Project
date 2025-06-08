@@ -10,11 +10,18 @@ training:
   learning_rate: 0.0002
   weight_decay: 0.0001
   checkpoint_dir: "checkpoints_3"
-
+#Project/
 data:
-  train_csv: "data/train_df.csv"
-  val_csv: "data/val_df.csv"
-  image_dir: "images"
+  train_csv: "faster_rcnn/data/train_df.csv"
+  val_csv: "faster_rcnn/data/val_df.csv"
+  image_dir: "data"
+
+dataset:
+  train_annotations_path: data/ORIGINAL/annotations
+  val_annotations_path: data/VAL/annotations
+  category_csv_path: faster_rcnn/data/category_df.csv
+  processed_train_df_path: faster_rcnn/data/train_df.csv
+  processed_val_df_path: faster_rcnn/data/val_df.csv
 
 model:
   num_classes: 74  # 배경 + 73

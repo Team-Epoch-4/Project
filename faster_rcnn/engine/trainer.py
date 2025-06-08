@@ -5,7 +5,7 @@ def train_one_epoch(model, optimizer, data_loader, device, epoch, use_wandb=Fals
     model.train()
     running_loss = 0.0
 
-    for step, (images, targets) in enumerate(tqdm(data_loader, desc=f"Epoch {epoch+1} - Training")):
+    for step, (images, targets, _) in enumerate(tqdm(data_loader, desc=f"Epoch {epoch+1} - Training")):
         images = [img.to(device) for img in images]
         targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
 
