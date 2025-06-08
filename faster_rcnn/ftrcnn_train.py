@@ -60,26 +60,26 @@ val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False, collate_fn=col
 
 # --- 학습 루프 전에 best_map 초기화 추가 ---
 best_map = 0.0
+save_every = config["training"]["save_every"]
 
 # --- 학습 루프 ---
 for epoch in range(start_epoch, EPOCHS):
     train_one_epoch(model, optimizer, train_loader, device, epoch, use_wandb=args.use_wandb)
     metrics = run_evaluation(model, val_loader, device, epoch, use_wandb=args.use_wandb, save_pred_df=False)
     # best.pth 저장 (mAP 기준)
-val_map = metrics["val/map"]  # log_data에 들어가 있음 → 그대로 사용 가능
+    val_map = metrics["val/map"]  # log_data에 들어가 있음 → 그대로 사용 가능
+
+    # best.pth 저장
+    if val_map > best_map:
+        best_map = val_map
+        print(f"best모델 저장: mAP={val_map:.4f}, saving best.pth")
+        torch.save({
+            "epoch": epoch,
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict()
+        }, os.path.join(args.ckpt_dir, f"best.pth"))
 
     # 모델 저장
-if val_map > best_map:
-    best_map = val_map
-    print(f"💾 New best model found! mAP={val_map:.4f}, saving best.pth")
-    torch.save({
-        "epoch": epoch,
-        "model_state_dict": model.state_dict(),
-        "optimizer_state_dict": optimizer.state_dict()
-    }, os.path.join(args.ckpt_dir, f"epoch_{epoch+1:02d}_best.pth"))
-    # 모델 저장
-    save_every = config["training"]["save_every"]
-
     if (epoch + 1) % save_every == 0:
         torch.save({
             "epoch": epoch,
