@@ -17,7 +17,9 @@ data:
   image_dir: "data"
 
 dataset:
-  train_annotations_path: data/ORIGINAL/annotations
+  train_annotations_paths: 
+    - data/ORIGINAL/annotations
+    - data/ADD/annotations
   val_annotations_path: data/VAL/annotations
   category_csv_path: faster_rcnn/data/category_df.csv
   processed_train_df_path: faster_rcnn/data/train_df.csv
