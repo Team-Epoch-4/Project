@@ -76,3 +76,5 @@ def run_evaluation(model, data_loader, device, epoch=None, use_wandb=False, save
         pred_df = pd.DataFrame(pred_results)
         pred_df.to_csv('faster_rcnn_pred_df.csv', index=False)
         print(f"VAL_DATASET 예측 .csv저장: faster_rcnn_pred_df.csv ({len(pred_df)} predictions)")
+
+    return log_data
