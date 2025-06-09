@@ -96,8 +96,7 @@
 |----------|---------------------------------------------|
 | YOLOv8   | [Ultralytics YOLOv8 공식문서](https://docs.ultralytics.com/ko/models/yolov8/)|
 | Faster R-CNN | [Faster R-CNN 논문(arXiv:1504.08083)](https://arxiv.org/abs/1504.08083) |
-| YOLOv9   | [Ultralytics YOLOv9 공식문서](https://arxiv.org/abs/2304.00501)    |
-| YOLOv12  | [Ultralytics YOLOv12 공식문서](https://github.com/OpenYOLO/OpenYOLO) |
+| YOLOv9   | [Ultralytics YOLOv9 공식문서](https://docs.ultralytics.com/ko/models/yolov9/)    |
 | Tesseract OCR | [Tesseract GitHub](https://github.com/tesseract-ocr/tesseract) |
 | ResNet   | [ResNet 논문(딥러닝 이미지 분류의 대표적 논문)(arXiv:1512.03385)](https://arxiv.org/abs/1506.01497)    |
 
