@@ -33,9 +33,13 @@ faster_rcnn/
 ---
 # 환경 설치 gpu, ftrcnn_requirement.txt
 ## PyTorch GPU 버전 설치
+```bash
 pip install --index-url https://download.pytorch.org/whl/cu121 torch torchvision torchaudio
+```
 ## 프로젝트 requirements 설치
+```bash
 pip install -r ftrcnn_requirements.txt
+```
 ---
 # Workflow 예시
 1. generate_csv.py → CSV 생성
@@ -48,40 +52,56 @@ pip install -r ftrcnn_requirements.txt
 - 원본 데이터를 data/ 폴더에 구성
 - generate_csv.py 실행
 ##  생성 코드
+```bash
 python faster_rcnn/generate_csv.py
+```
 ---
 ##  생성 결과:
 faster_rcnn/data/train_df.csv
 faster_rcnn/data/val_df.csv
 
 ## CSV 구성:
-image_name, image_path, boundingbox, label
+```markdown
+image_name, image_path, x, y, w, h, label
+```
 ---
 
 # faster_rcnn 기본 학습(Backbone Layer = 3)
+```bash
 python faster_rcnn/ftrcnn_train.py
+```
 - Pretrained COCO weight 사용
 - Best model → weights/best.pth 저장
 - Epoch 단위 체크포인트 → weights/epoch_XX.pth 저장
 - Early-stopping 적용
 ## faster_rcnn W&B 로깅 활성화
+```bash
 python faster_rcnn/ftrcnn_train.py --use_wandb
+```
 ## faster_rcnn 체크포인트 디렉토리 지정
+```bash
 python faster_rcnn/ftrcnn_train.py --use_wandb --ckpt_dir=faster_rcnn/weight
+```
 ## Fine-tuning (Backbone Layer = 5)
+```bash
 python faster_rcnn/fine_tune.py --resume_ckpt faster_rcnn/weights/best.pth --use_wandb
+```
 - Backbone full-train 수행
 ## faster_rcnn 평가
+```bash
 python faster_rcnn/evaluate.py --checkpoint faster_rcnn/weights/fine_tune/best.pth
+```
 - engine/evaluator.py → run_evaluation 사용
 - mAP, mAR 계산
 - GFLOPs 계산 기능 포함
 
 # TEST_DATASET 시각화
+```bash
 python faster_rcnn/visualize_prediction.py \
     --checkpoint faster_rcnn/weights/best.pth \
     --input_dir data/TEST/test_images \
     --output_dir fasterrcnn_visual_results
+```
 
 - input_dir: 테스트 이미지 폴더 경로
 - output_dir: 결과 bbox 시각화 이미지 저장 경로
