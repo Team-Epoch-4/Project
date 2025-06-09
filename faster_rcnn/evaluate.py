@@ -30,6 +30,7 @@ def main(args):
 
     # 모델 로드
     model = load_model(args.checkpoint, num_classes, device)
+    model.roi_heads.nms_thresh = 0.7
 
     # Backbone profile (optional)
     if args.profile_model:
