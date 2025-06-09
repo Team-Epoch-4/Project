@@ -1,3 +1,6 @@
+프로젝트 보고서 주소 : https://smart-nightshade-63d.notion.site/20d46e2fcad88000b284c35ae13e4047?source=copy_link
+
+
 # 💊 경구약제 객체 탐지 프로젝트
 
 ## 프로젝트 개요
