@@ -5,6 +5,7 @@
 - 데이터 가공 → 모델 학습 → Fine-tuning → 평가 → 예측 결과 시각화
 
 ## 프로젝트 구조
+```plaintext
 faster_rcnn/
 ├── evaluate.py                   # 모델 평가 스크립트
 ├── fine_tune.py                  # fine-tuning (backbone full train) 스크립트
@@ -28,6 +29,7 @@ faster_rcnn/
 ├── engine/
 │   ├── evaluator.py
 │   ├── trainer.py
+```
 ---
 # 환경 설치 gpu, ftrcnn_requirement.txt
 ## PyTorch GPU 버전 설치
@@ -49,8 +51,8 @@ pip install -r ftrcnn_requirements.txt
 python faster_rcnn/generate_csv.py
 ---
 ##  생성 결과:
-data/train_df.csv
-data/val_df.csv
+faster_rcnn/data/train_df.csv
+faster_rcnn/data/val_df.csv
 
 ## CSV 구성:
 image_name, image_path, boundingbox, label
