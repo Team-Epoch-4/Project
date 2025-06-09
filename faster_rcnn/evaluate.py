@@ -4,6 +4,7 @@ import torch
 import pandas as pd
 from torchvision.models.detection import fasterrcnn_resnet50_fpn
 from torch.utils.data import DataLoader
+import yaml
 
 from engine.evaluator import run_evaluation
 from dataset import FasterRCNNDataset, get_val_transform, collate_fn
@@ -20,7 +21,7 @@ def main(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # config.yaml load
-    with open("config.yaml", "r") as f:
+    with open("faster_rcnn/ftrcnn_config.yaml", "r") as f:
         config = yaml.safe_load(f)
 
     # 파라미터 로드
