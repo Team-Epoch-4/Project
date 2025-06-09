@@ -78,6 +78,8 @@ python faster_rcnn/ftrcnn_train.py
 ```bash
 python faster_rcnn/ftrcnn_train.py --use_wandb
 ```
+선택적을 --use_wandb 사용
+---
 ## faster_rcnn 체크포인트 디렉토리 지정
 ```bash
 python faster_rcnn/ftrcnn_train.py --use_wandb --ckpt_dir=faster_rcnn/weight
@@ -87,9 +89,9 @@ python faster_rcnn/ftrcnn_train.py --use_wandb --ckpt_dir=faster_rcnn/weight
 python faster_rcnn/fine_tune.py --resume_ckpt faster_rcnn/weights/best.pth --use_wandb
 ```
 - Backbone full-train 수행
-## faster_rcnn 평가
+## faster_rcnn 평가, FLOPs
 ```bash
-python faster_rcnn/evaluate.py --checkpoint faster_rcnn/weights/fine_tune/best.pth
+python faster_rcnn/evaluate.py --checkpoint faster_rcnn/weights/finetune/best.pth --profile_model
 ```
 - engine/evaluator.py → run_evaluation 사용
 - mAP, mAR 계산
@@ -97,9 +99,9 @@ python faster_rcnn/evaluate.py --checkpoint faster_rcnn/weights/fine_tune/best.p
 
 # TEST_DATASET 시각화
 ```bash
-python faster_rcnn/visualize_prediction.py \
-    --checkpoint faster_rcnn/weights/best.pth \
-    --input_dir data/TEST/test_images \
+python faster_rcnn/visualize_prediction.py 
+    --checkpoint faster_rcnn/weights/best.pth 
+    --input_dir data/TEST/test_images 
     --output_dir fasterrcnn_visual_results
 ```
 
@@ -110,10 +112,12 @@ python faster_rcnn/visualize_prediction.py \
 - Early-stopping
 - COCO pre-trained backbone
 - layer freeze/unfreeze 전략 사용
+
 평가 지표: 
 - mAP@0.5
 - mAP@0.75
 - mAR@100
+
 데이터 구성: 
 - 73 클래스
 - 최대 4 bbox per image

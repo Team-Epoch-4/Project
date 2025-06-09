@@ -12,8 +12,8 @@ from dataset import FasterRCNNDataset, get_train_transform, get_val_transform, c
 
 # --- argparse, yaml ---
 parser = argparse.ArgumentParser()
-parser.add_argument("--resume_ckpt", type=str, default="faster_rcnn/weight/best.pth", help="Path to checkpoint to resume from")
-parser.add_argument("--ckpt_dir", type=str, default="faster_rcnn/weight/finetune", help="Directory to save fine-tune checkpoints")
+parser.add_argument("--resume_ckpt", type=str, default="faster_rcnn/weights/best.pth", help="Path to checkpoint to resume from")
+parser.add_argument("--ckpt_dir", type=str, default="faster_rcnn/weights/finetune", help="Directory to save fine-tune checkpoints")
 parser.add_argument("--use_wandb", action="store_true", help="Enable Weights & Biases logging")
 parser.add_argument("--trainable_backbone_layers", type=int, default=5, help="Number of trainable backbone layers")  # fine-tune 시 backbone 늘릴 때 사용
 args = parser.parse_args()
@@ -29,10 +29,8 @@ else:
     os.environ["WANDB_MODE"] = "disabled"
 
 # --- 기본 설정 ---
-EPOCHS = config["training"]["epochs"]
-FINE_TUNE_EPOCHS = config["training"]["fine_tune_epochs"]
-start_epoch = config["training"]["start_epoch"]
-save_every = config["training"]["save_every"]
+FINE_TUNE_EPOCHS = config["fine_tune"]["epochs"]
+save_every = config["fine_tune"]["save_every"]
 
 NUM_CLASSES = config["model"]["num_classes"]  # (배경 포함)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -49,15 +47,15 @@ model = fasterrcnn_resnet50_fpn(
 model.to(device)
 
 # --- Optimizer 정의 ---
-optimizer = torch.optim.Adam(model.parameters(),
-                             lr=config["training"]["learning_rate"],
-                             weight_decay=config["training"]["weight_decay"])
+optimizer = torch.optim.SGD(model.parameters(),
+                            lr= config["fine_tune"]['learning_rate'],
+                            momentum=config["fine_tune"]['momentum'],
+                            weight_decay=config["fine_tune"]["weight_decay"])
 
 # --- Checkpoint 로드 ---
 print(f"Resuming from checkpoint: {args.resume_ckpt}")
 checkpoint = torch.load(args.resume_ckpt, map_location=device, weights_only=False)
 model.load_state_dict(checkpoint["model_state_dict"], strict=False)  # strict=False → backbone layer 수 달라도 안전하게 로드
-optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
 start_epoch = checkpoint["epoch"] + 1  # 이어서 학습
 
 # --- Dataset / DataLoader ---
@@ -67,14 +65,14 @@ val_df = pd.read_csv(config["data"]["val_csv"])
 train_dataset = FasterRCNNDataset(train_df, transforms=get_train_transform())
 val_dataset = FasterRCNNDataset(val_df, transforms=get_val_transform())
 
-train_loader = DataLoader(train_dataset, batch_size=config["training"]["batch_size"], shuffle=True, collate_fn=collate_fn, num_workers=0, pin_memory=True)
+train_loader = DataLoader(train_dataset, batch_size=config["fine_tune"]["batch_size"], shuffle=True, collate_fn=collate_fn, num_workers=0, pin_memory=True)
 val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False, collate_fn=collate_fn, num_workers=0, pin_memory=True)
 
 # --- 학습 루프 ---
 best_map = 0.0
 no_improve_count = 0
-early_stop_patience = config["training"]["early_stop_patience"]
-early_stop_min_delta = config["training"]["early_stop_min_delta"]
+early_stop_patience = config["fine_tune"]["early_stop_patience"]
+early_stop_min_delta = config["fine_tune"]["early_stop_min_delta"]
 
 
 for epoch in range(start_epoch, start_epoch + FINE_TUNE_EPOCHS):
