@@ -12,8 +12,8 @@ from dataset import FasterRCNNDataset, get_train_transform, get_val_transform, c
 
 # --- argparse, yaml ---
 parser = argparse.ArgumentParser()
-parser.add_argument("--resume_ckpt", type=str, default="checkpoints_faster_rcnn/best.pth", help="Path to checkpoint to resume from")
-parser.add_argument("--ckpt_dir", type=str, default="checkpoints_faster_rcnn_finetune", help="Directory to save fine-tune checkpoints")
+parser.add_argument("--resume_ckpt", type=str, default="faster_rcnn/weight/best.pth", help="Path to checkpoint to resume from")
+parser.add_argument("--ckpt_dir", type=str, default="faster_rcnn/weight/finetune", help="Directory to save fine-tune checkpoints")
 parser.add_argument("--trainable_backbone_layers", type=int, default=5, help="Number of trainable backbone layers")  # fine-tune 시 backbone 늘릴 때 사용
 args = parser.parse_args()
 
