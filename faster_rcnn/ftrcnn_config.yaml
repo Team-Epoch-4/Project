@@ -5,6 +5,7 @@ project:
 
 training:
   epochs: 50
+  fine_tune_epochs: 20
   start_epoch: 0
   batch_size: 4
   learning_rate: 0.0002
