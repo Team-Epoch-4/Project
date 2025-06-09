@@ -22,6 +22,7 @@ with open("faster_rcnn/ftrcnn_config.yaml", "r") as f:
 
 # --- 기본 설정 ---
 EPOCHS = config["training"]["epochs"]
+FINE_TUNE_EPOCHS = config["training"]["fine_tune_epochs"]
 start_epoch = config["training"]["start_epoch"]
 save_every = config["training"]["save_every"]
 
@@ -68,8 +69,8 @@ early_stop_patience = config["training"]["early_stop_patience"]
 early_stop_min_delta = config["training"]["early_stop_min_delta"]
 
 
-for epoch in range(start_epoch, EPOCHS):
-    print(f"\n[Fine-tune Epoch {epoch}/{EPOCHS}]")
+for epoch in range(start_epoch, start_epoch + FINE_TUNE_EPOCHS):
+    print(f"\n[Fine-tune Epoch {epoch}/{start_epoch + FINE_TUNE_EPOCHS - 1}]")
     train_one_epoch(model, optimizer, train_loader, device, epoch, use_wandb=False)
     metrics = run_evaluation(model, val_loader, device, epoch, use_wandb=False, save_pred_df=False)
 
