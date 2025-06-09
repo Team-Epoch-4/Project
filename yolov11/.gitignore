@@ -1,0 +1,38 @@
+# ✅ 모델 가중치
+*.pt
+*.onnx
+*.pth
+
+# ✅ 학습 결과
+runs/
+
+# ✅ 데이터셋
+yolo_dataset/
+data/
+datasets/
+
+# ✅ 캐시/임시
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.DS_Store
+
+# ✅ 모델 디렉토리
+model/
+
+# ✅ 결과물 무시 (원하면 주석처리)
+ results/
+ results/summary.csv
+ results/plots/
+
+# ✅ Python 캐시 및 임시파일
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.DS_Store
+
+# ✅ 가상환경 관련
+.venv/
+.env
