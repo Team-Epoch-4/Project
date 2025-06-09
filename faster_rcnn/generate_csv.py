@@ -47,20 +47,27 @@ def load_annotations_from_folder(folder_path):
 
 with open("faster_rcnn/ftrcnn_config.yaml", "r") as f:
     config = yaml.safe_load(f)
-#   train_annotations_path: data/ORIGINAL/annotations
+#   train_annotations_paths: -data/ORIGINAL/annotations -data/ADD/annotations
 #   val_annotations_path: data/VAL/annotations
 #   category_csv_path: faster_rcnn/data/category_df.csv
 #   processed_train_df_path: faster_rcnn/data/train_df.csv
 #   processed_val_df_path: faster_rcnn/data/val_df.csv
 # 경로 읽기
-train_annotations_path = config["dataset"]["train_annotations_path"]
+train_annotations_paths = config["dataset"]["train_annotations_paths"]
 val_annotations_path = config["dataset"]["val_annotations_path"]
 category_csv_path = config["dataset"]["category_csv_path"]
 processed_train_df_path = config["dataset"]["processed_train_df_path"]
 processed_val_df_path = config["dataset"]["processed_val_df_path"]
 
 # train/val_df
-train_df = load_annotations_from_folder(train_annotations_path)
+# 여러 train 폴더 처리
+train_dfs = []
+for path in train_annotations_paths:
+    df = load_annotations_from_folder(path)
+    train_dfs.append(df)
+
+# 하나로 합치기
+train_df = pd.concat(train_dfs, ignore_index=True)
 val_df = load_annotations_from_folder(val_annotations_path)
 
 category_df = pd.read_csv(category_csv_path)

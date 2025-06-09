@@ -9,6 +9,9 @@ training:
   batch_size: 4
   learning_rate: 0.0002
   weight_decay: 0.0001
+  save_every : 5
+  early_stop_patience: 5
+  early_stop_min_delta: 0.001
   checkpoint_dir: "checkpoints_3"
 #Project/
 data:
@@ -17,7 +20,9 @@ data:
   image_dir: "data"
 
 dataset:
-  train_annotations_path: data/ORIGINAL/annotations
+  train_annotations_paths: 
+    - data/ORIGINAL/annotations
+    - data/ADD/annotations
   val_annotations_path: data/VAL/annotations
   category_csv_path: faster_rcnn/data/category_df.csv
   processed_train_df_path: faster_rcnn/data/train_df.csv
