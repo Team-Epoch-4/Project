@@ -54,5 +54,9 @@ python scripts/train_model.py
 echo "🎨 모델검증중...""
 python scripts/eval_model_aug.py
 
+# ✅ 12.csv 파일 생성
+echo "🎨 csv파일 생성...""
+python scripts/make_csv.py
+
 
 echo "✅ 전체 파이프라인 완료!"
