@@ -54,7 +54,11 @@ python scripts/train_model.py
 echo "🎨 모델검증중...""
 python scripts/eval_model_aug.py
 
-# ✅ 12.csv 파일 생성
+# ✅ 12.모델 지표 시각화
+echo "🎨 모델 지표 시각화...""
+python scripts/eval_final_model.py
+
+# ✅ 13.csv 파일 생성
 echo "🎨 csv파일 생성...""
 python scripts/make_csv.py
 
