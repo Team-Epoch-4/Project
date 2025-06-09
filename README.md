@@ -95,9 +95,9 @@
 - `resnet_metrics.csv`, `resnet_confusion_matrix.png` : 분류기 성능
 
 ### 최종 모델
-- `final_model_metrics/` : confusion matrix, mAP 곡선
-- `val_predictions/` : 예측 이미지
-- `submission_yolov8n.csv` : 제출 파일
+- `eval_final_model/` : confusion matrix, mAP 곡선
+- `eval_model_aug/` : 예측 이미지
+- `yolov11l_final.csv` : 제출 파일
 
 ---
 
