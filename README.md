@@ -40,7 +40,8 @@
 
 - **OCR (Tesseract 등)**
   - 각인 미존재, 오인식, 클래스 중복 등 한계 확인
-  - Dictionary 기반 후처리로도 정확도 개선 한계
+  - Dictionary 기반 후처리로도 정확도 개선 한계  
+  
 - **ResNet18/34 분류기**
 - ResNet18 및 ResNet34 기반의 이미지 분류 실험에서도 YOLOv8과 유사한 분류 정확도를 확인
 - 다만, 해당 실험은 테스트 이미지와 학습이미지 간 중복도가 높은 환경에서 진행되었기 때문에, 일반화 성능에 대한 명확한 비교에는 한계가 있음
@@ -79,20 +80,15 @@
 
 # 🔎 실험 결과/자료 구조
 
-### 모델 비교 실험
-- `metrics_comparison.csv` : mAP, 파라미터 등 정량 비교
-- `yolo_frcnn_visuals/` : 동일 이미지 예측 결과 비교
-- `model_complexity.txt` : 파라미터/FLOPs
-
-### YOLOv8n vs YOLOv8m
-- `yolov8n_vs_m_metrics.csv` : 정량 성능 비교
-- `training_curve.png` : loss/mAP 곡선
-- `yolo8n_predictions/`, `yolo8m_predictions/` : 예측 결과
-
 ### OCR/분류기 실험
-- `ocr_result_failures.csv` : OCR 오인식 사례
-- `ocr_examples/` : 실패 이미지
-- `resnet_metrics.csv`, `resnet_confusion_matrix.png` : 분류기 성능
+- results/ocr_results.json: OCR 결과
+- results/ocr_failures.csv: OCR 실패 목록
+- results/visualized_by_class/: 시각화 이미지
+
+### YOLOv8 모델
+- `final_model_metrics/` : confusion matrix, mAP 곡선
+- `val_predictions/` : 예측 이미지
+- `submission_yolov8n.csv` : 제출 파일
 
 ### 최종 모델
 - `eval_final_model/` : confusion matrix, mAP 곡선
