@@ -1,0 +1,24 @@
+# CUDA 휠 파일 다운로드를 위한 인덱스
+--find-links https://download.pytorch.org/whl/torch_stable.html
+
+# Base
+
+# torch==2.5.1+cu121
+# torchvision==0.22.1
+# torchaudio==2.2.1
+
+# pip install --index-url https://download.pytorch.org/whl/cu121 torch torchvision torchaudio
+
+# Data & Utility
+torchmetrics
+pandas
+tqdm
+pyyaml
+albumentations
+opencv-python
+
+# Logging
+wandb
+
+# Git
+gitpython

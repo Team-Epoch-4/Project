@@ -1,0 +1,36 @@
+project:
+  wandb: false
+  name: "pill-detection"
+  run_name: "fasterrcnn-v1"
+
+training:
+  epochs: 50
+  start_epoch: 0
+  batch_size: 4
+  learning_rate: 0.0002
+  weight_decay: 0.0001
+  save_every : 5
+  early_stop_patience: 5
+  early_stop_min_delta: 0.001
+  checkpoint_dir: "faster_rcnn/weight"
+
+data:
+  train_csv: "faster_rcnn/data/train_df.csv"
+  val_csv: "faster_rcnn/data/val_df.csv"
+  image_dir: "data"
+
+dataset:
+  train_annotations_paths: 
+    - data/ORIGINAL/annotations
+    - data/ADD/annotations
+  val_annotations_path: data/VAL/annotations
+  category_csv_path: faster_rcnn/data/category_df.csv
+  processed_train_df_path: faster_rcnn/data/train_df.csv
+  processed_val_df_path: faster_rcnn/data/val_df.csv
+
+model:
+  num_classes: 74  # 배경 + 73
+
+augmentation:
+  image_size: 640
+  use_augmentation: true

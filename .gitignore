@@ -1,0 +1,45 @@
+data/
+=======
+# Python 관련
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.ipynb_checkpoints
+
+# 환경 관련
+.env
+.venv
+env/
+venv/
+*.egg-info/
+
+# VS Code
+.vscode/
+
+# Jupyter notebook checkpoint
+.ipynb_checkpoints/
+
+# 결과 이미지 제외하고 모든 png 무시
+*.png
+images/
+
+# Checkpoint 및 로그 파일
+checkpoints/
+checkpoints_*/
+*.pth
+
+# 모든 CSV 파일 무시
+*.csv
+
+# 예외 처리: category_df.csv는 포함
+!faster_rcnn/data/category_df.csv
+
+# 로그 및 캐시
+wandb/
+*.log
+*.tmp
+
+# 시스템 파일
+.DS_Store
+Thumbs.db
