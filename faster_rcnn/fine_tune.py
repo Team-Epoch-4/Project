@@ -14,11 +14,19 @@ from dataset import FasterRCNNDataset, get_train_transform, get_val_transform, c
 parser = argparse.ArgumentParser()
 parser.add_argument("--resume_ckpt", type=str, default="faster_rcnn/weight/best.pth", help="Path to checkpoint to resume from")
 parser.add_argument("--ckpt_dir", type=str, default="faster_rcnn/weight/finetune", help="Directory to save fine-tune checkpoints")
+parser.add_argument("--use_wandb", action="store_true", help="Enable Weights & Biases logging")
 parser.add_argument("--trainable_backbone_layers", type=int, default=5, help="Number of trainable backbone layers")  # fine-tune 시 backbone 늘릴 때 사용
 args = parser.parse_args()
 
 with open("faster_rcnn/ftrcnn_config.yaml", "r") as f:
     config = yaml.safe_load(f)
+
+# --- wandb 조건부 활성화 ---
+if args.use_wandb:
+    import wandb
+    wandb.init(project="pill-detection", name=f"fasterrcnn-{args.ckpt_dir}")
+else:
+    os.environ["WANDB_MODE"] = "disabled"
 
 # --- 기본 설정 ---
 EPOCHS = config["training"]["epochs"]
@@ -71,8 +79,8 @@ early_stop_min_delta = config["training"]["early_stop_min_delta"]
 
 for epoch in range(start_epoch, start_epoch + FINE_TUNE_EPOCHS):
     print(f"\n[Fine-tune Epoch {epoch}/{start_epoch + FINE_TUNE_EPOCHS - 1}]")
-    train_one_epoch(model, optimizer, train_loader, device, epoch, use_wandb=False)
-    metrics = run_evaluation(model, val_loader, device, epoch, use_wandb=False, save_pred_df=False)
+    train_one_epoch(model, optimizer, train_loader, device, epoch, use_wandb=args.use_wandb)
+    metrics = run_evaluation(model, val_loader, device, epoch, use_wandb=args.use_wandb, save_pred_df=False)
 
     # best.pth 저장
     val_map = metrics["val/map"]
