@@ -5,13 +5,13 @@ project:
 
 training:
   epochs: 50
-  fine_tune_epochs: 10
+  fine_tune_epochs: 20
   start_epoch: 0
   batch_size: 4
   learning_rate: 0.0002
   weight_decay: 0.0001
   save_every : 5
-  early_stop_patience: 3
+  early_stop_patience: 5
   early_stop_min_delta: 0.001
   checkpoint_dir: "faster_rcnn/weight"
 
