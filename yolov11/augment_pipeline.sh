@@ -42,12 +42,15 @@ python scripts/generate_collages.py
 echo "🎨 증강 및 YOLO 변환 시작..."
 python scripts/convert_with_aug.py
 
+# ✅ 9. Split_val
+echo "🎨 Train -> split -> val ..."
+python scripts/split_val.py
 
-# ✅ 9.모델 학습
+# ✅ 10.모델 학습
 echo "🎨 모델 학습중..."
 python scripts/train_model.py
 
-# ✅ 9.모델검증
+# ✅ 11.모델검증
 echo "🎨 모델검증중...""
 python scripts/eval_model_aug.py
 
