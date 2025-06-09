@@ -13,7 +13,7 @@ from dataset import FasterRCNNDataset, get_train_transform, get_val_transform, c
 # --- argparse, yaml ---
 parser = argparse.ArgumentParser()
 parser.add_argument("--use_wandb", action="store_true", help="Enable Weights & Biases logging")
-parser.add_argument("--ckpt_dir", type=str, default="checkpoints_faster_rcnn", help="Directory to save checkpoints")
+parser.add_argument("--ckpt_dir", type=str, default="faster_rcnn/weight", help="Directory to save checkpoints")
 args = parser.parse_args()
 
 with open("faster_rcnn/ftrcnn_config.yaml", "r") as f:

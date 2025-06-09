@@ -5,6 +5,7 @@ project:
 
 training:
   epochs: 50
+  fine_tune_epochs: 20
   start_epoch: 0
   batch_size: 4
   learning_rate: 0.0002
@@ -12,8 +13,8 @@ training:
   save_every : 5
   early_stop_patience: 5
   early_stop_min_delta: 0.001
-  checkpoint_dir: "checkpoints_3"
-#Project/
+  checkpoint_dir: "faster_rcnn/weight"
+
 data:
   train_csv: "faster_rcnn/data/train_df.csv"
   val_csv: "faster_rcnn/data/val_df.csv"
